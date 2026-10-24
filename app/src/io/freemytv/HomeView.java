@@ -2796,8 +2796,9 @@ final class HomeView extends ViewGroup implements Choreographer.FrameCallback, H
             }
         }
         for (Recs.Pick p : recs.wanted()) recs.backdrop(p);   // all three tabs preloaded: switching tabs is instant
-        // Picks bring their own background; without them (no TMDB key), your photo if there is one.
-        boolean own = !picksOn() && Photos.on(getContext());
+        // Your photo (My Photos) is the background whenever there is one, with or without picks; otherwise the first
+        // pick's own background.
+        boolean own = Photos.on(getContext());
         Backdrop b = own ? Photos.backdrop(getContext(), ownReady) : cards.isEmpty() ? null : recs.backdrop(cards.get(0));
         if (b != null || (cards.isEmpty() && !own)) showBackdrop(b);
         heroDirty = true;
@@ -3106,3 +3107,4 @@ final class HomeView extends ViewGroup implements Choreographer.FrameCallback, H
                 | (Math.round(ag + (bg - ag) * f) << 8) | Math.round(ab + (bb - ab) * f);
     }
 }
+
